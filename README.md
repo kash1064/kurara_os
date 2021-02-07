@@ -16,15 +16,18 @@
 3. VSCodeに拡張機能[microsoft/vscode-hexeditor: VS Code Hex Editor](https://github.com/microsoft/vscode-hexeditor)をインストール
 
 
-# References
-## Books
+## Reference
+### Book
 - [30日でできる! OS自作入門 | 川合 秀実 | 工学 | Kindleストア | Amazon](https://amzn.to/2Og95Yr)
 
 - [作って理解するOS x86系コンピュータを動かす理論と実装 | 林 高勲, 川合 秀実 | 工学 | Kindleストア | Amazon](https://amzn.to/2OiqcsJ)
 
 - [自作エミュレータで学ぶx86アーキテクチャ　コンピュータが動く仕組みを徹底理解！ | 内田 公太, 上川 大介 | 工学 | Kindleストア | Amazon](https://amzn.to/36OW3aP)
 
-## Blogs
+### Web
+- [tools/nask - hrb-wiki](http://hrb.osask.jp/wiki/index.php?tools%2Fnask)
+
+### Blog
 - [【Ubuntu/NASMで】『30日でできる！OS自作入門』を10日目まで進めたのでポイントをまとめてみた｜かえるのほんだな](https://yukituna.com/2785/)
 
 - [30日OSのブートイメージをQemuのCUIで動かすnographicオプションの使い方｜かえるのほんだな](https://yukituna.com/2940/)

@@ -14,14 +14,17 @@ boot.bin: ${bootdir}/boot.s
 kernel.bin: ${bootdir}/kernel.s
 	nasm ${bootdir}/kernel.s -l ${outputdir}/kernel.lst -o ${outputdir}/kernel.bin
 
+remove_comments_from_lst: ${outputdir}/boot.lst ${outputdir}/kernel.lst env/remove_comment_from_lst.py
+	python3 env/remove_comment_from_lst.py
+
 kurara_os.img: boot.bin kernel.bin
 	cat ${outputdir}/boot.bin > ${outputdir}/kurara_os.img
-	cat ${outputdir}/kernel.bin >> ${outputdir}/kurara_os.img
+	# cat ${outputdir}/kernel.bin >> ${outputdir}/kurara_os.img
 
 run_nogui: ${outputdir}/kurara_os.img
 	${QEMU} -drive file=${outputdir}/kurara_os.img -nographic
 
-build: boot.bin kernel.bin kurara_os.img
+build: boot.bin kernel.bin remove_comments_from_lst kurara_os.img
 
 # Docker
 pwd := `pwd`
