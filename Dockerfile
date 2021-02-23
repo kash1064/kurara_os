@@ -18,7 +18,7 @@ RUN apt update && apt upgrade -y
 RUN apt install  vim unzip zip gdb ltrace strace bash-completion -y
 
 # Dev tools
-RUN apt install mtools nasm build-essential g++ make -y
+RUN apt install mtools nasm build-essential g++ cmake make -y
 
 # Qemu
 RUN apt install qemu qemu-system-x86 qemu-utils qemu-system-arm -y

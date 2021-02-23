@@ -9,11 +9,22 @@
     - \kurara_os\intel_386\env
     
 2. OSコンパイル用のDockerイメージを作成
-    - sudo /etc/init.d/docker start
-    - docker build -t kurara_os_x86_64 .
-    - docker run --rm -it --user ubuntu -v $PWD:/kurara_os kurara_os_x86_64 bash
+    - ```sudo /etc/init.d/docker start```
+    - ```docker build -t kurara_os_x86_64 .```
+    - ```docker run --rm -it --user ubuntu -v $PWD:/kurara_os kurara_os_x86_64 bash```
 
 3. VSCodeに拡張機能[microsoft/vscode-hexeditor: VS Code Hex Editor](https://github.com/microsoft/vscode-hexeditor)をインストール
+
+4. newlib のビルド
+- ```git clone sourceware.org:/git/newlib-cygwin.git```
+- ```mkdir build_newlib```
+- ```../newlib-cygwin/newlib/configure CC=clang CFLAGS="-nostdlibinc -02" --target=x86_x64-elf --prefix=$HOME/x86_64-elf --disable-multilib```
+- ```make -j 4```
+- ```make install```
+
+5. libc++ のビルド
+- ```git clone https://github.com/llvm/llvm-project.git```
+
 
 
 ## Reference
