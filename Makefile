@@ -1,15 +1,15 @@
 SHELL=/bin/bash
 
 clear:
-	-find . -name "*.o*" -exec rm {} \;
+	-find ./intel_386/outputs/ -name "*.o*" -exec rm {} \;
 	# -find . -name "*.exe" -exec rm {} \;
+	-find ./intel_386/outputs/ -name "*.img" -exec rm {} \;
+	-find ./intel_386/outputs/ -name "*.lst" -exec rm {} \;
+	-find ./intel_386/outputs/ -name "*.bin" -exec rm {} \;
 	-find . -name ".gdb_history" -exec rm {} \;
 	-find . -name ".bash_history" -exec rm {} \;
 	-find . -name ".cache" -exec rm {} \;
 	-find . -name "peda-session-*" -exec rm {} \;
-	-find . -name "*.img" -exec rm {} \;
-	-find . -name "*.lst" -exec rm {} \;
-	-find . -name "*.bin" -exec rm {} \;
 
 day := `date +"%Y_%m_%d"`
 m := autopush ${day}
