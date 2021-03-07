@@ -1,1 +1,1 @@
-qemu-system-i386.exe -rtc base=localtime -drive file=C:/Users/yuki/Documents/kurara_os/intel_386/outputs/kurara_os.img,format=raw -boot order=c
+qemu-system-i386.exe -rtc base=localtime -drive file=C:/Users/yuki/Documents/kurara_os/intel_386/kurara_os.img,format=raw -boot order=c

@@ -1,15 +1,6 @@
-
-void kernel(void) {
-    while (1)
-    {
-        continue;
-    }
-}
+#include "kernel.h"
 
 void main(void)
 {
-    while (1)
-    {
-        continue;
-    }
+    void io_hlt(void);
 }

@@ -1,37 +1,55 @@
 SHELL=/bin/bash
 
+MS32GCC := gcc -fno-pie -m32 -march=i486 -nostdlib -c
+NASM := nasm
+
+NASMFILE_DIR := /haribote/src/nasm
+CFILE_DIR := /haribote/src/c
+LDFILE_DIR := /haribote/src/ld
+
+
 QEMU=qemu-system-x86_64
 OSNAME=${shell uname -s}
 
 # Boot
-bootdir := /kurara_os/src/boot
-kerneldir := /kurara_os/src/kernel
+BOOT_DIR := /kurara_os/src/boot
+KERNEL_DIR := /kurara_os/src/kernel
+LDFILE_DIR := /kurara_os/src/modules/ld
+KERNEL_MODULE_DIR := /kurara_os/src/modules/kernel
 
 # qemu-system-x86_64.exe -drive file=kurara_os.img
-outputdir := /kurara_os/outputs
+OBJFILE_DIR := /kurara_os/outputs/obj
+LSTFILE_DIR := /kurara_os/outputs/lst
+HRBFILE_DIR := /kurara_os/outputs/hrb
 
-boot.bin: ${bootdir}/boot.s
-	nasm ${bootdir}/boot.s -l ${outputdir}/boot.lst -o ${outputdir}/boot.bin
+boot.bin: ${BOOT_DIR}/boot.s
+	${NASM} ${BOOT_DIR}/boot.s -l ${LSTFILE_DIR}/boot.lst -o ${OBJFILE_DIR}/boot.bin
 
-kernel.bin: ${bootdir}/kernel.s
-	nasm ${bootdir}/kernel.s -l ${outputdir}/kernel.lst -o ${outputdir}/kernel.bin
+library.bin: ${KERNEL_MODULE_DIR}/library.s Makefile
+	${NASM} -g -f elf ${KERNEL_MODULE_DIR}/library.s -o ${OBJFILE_DIR}/library.bin -l ${LSTFILE_DIR}/library.lst
 
-# kernel.bin: ${kerneldir}/kernel.c
-# 	gcc -S ${kerneldir}/kernel.c -o ${outputdir}/kernel.lst
-# 	gcc -c ${kerneldir}/kernel.c -o ${outputdir}/kernel.bin
+# kernel.bin: ${BOOT_DIR}/kernel.s
+# 	${NASM} ${BOOT_DIR}/kernel.s -l ${LSTFILE_DIR}/kernel.lst -o ${OBJFILE_DIR}/kernel.bin
+
+# %.obj : ${CFILE_DIR}/%.c Makefile
+# 	$(MS32GCC) ${CFILE_DIR}/$*.c -o ${OBJFILE_DIR}/$*.obj
+
+kernel.bin: ${KERNEL_DIR}/kernel.c ${LDFILE_DIR}/har.ld library.bin
+	gcc -march=i486 -m32 -fno-pie -nostdlib -T ${LDFILE_DIR}/har.ld -g \
+			${KERNEL_DIR}/kernel.c ${OBJFILE_DIR}/library.bin \
+			-o ${OBJFILE_DIR}/kernel.bin
 
 kurara_os.img: boot.bin kernel.bin
-	# gcc -o ${outputdir}/kurara_os.img ${outputdir}/boot.bin ${outputdir}/kernel.bin
-	cat ${outputdir}/boot.bin > ${outputdir}/kurara_os.img
-	cat ${outputdir}/kernel.bin >> ${outputdir}/kurara_os.img
+	# gcc -o ${OBJFILE_DIR}/kurara_os.img ${OBJFILE_DIR}/boot.bin ${OBJFILE_DIR}/kernel.bin
+	cat ${OBJFILE_DIR}/boot.bin > kurara_os.img
+	cat ${OBJFILE_DIR}/kernel.bin >> kurara_os.img
 
-run_nogui: ${outputdir}/kurara_os.img
-	${QEMU} -drive file=${outputdir}/kurara_os.img -nographic
+run_nogui: kurara_os.img
+	${QEMU} -drive file=kurara_os.img -nographic
 
 build: boot.bin kernel.bin kurara_os.img
 
-
-remove_comments_from_lst: ${outputdir}/boot.lst ${outputdir}/kernel.lst env/remove_comment_from_lst.py
+remove_comments_from_lst: ${OBJFILE_DIR}/boot.lst ${LSTFILE_DIR}/kernel.lst env/remove_comment_from_lst.py
 	python3 env/remove_comment_from_lst.py
 
 # Docker
